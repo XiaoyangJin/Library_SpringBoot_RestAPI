@@ -4,15 +4,18 @@ import com.example.Library.entity.Author;
 import com.example.Library.repository.AuthorBookRepository;
 import com.example.Library.repository.AuthorRepository;
 import com.example.Library.service.AuthorService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AuthorServiceImpl implements AuthorService {
 
     private final AuthorRepository authorRepository;
+
     @Autowired
     public AuthorServiceImpl(AuthorRepository authorRepository) {
         this.authorRepository = authorRepository;
@@ -21,6 +24,39 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public List<Author> findAllAuthors() {
         return authorRepository.findAll();
+    }
+
+    @Override
+    public Optional<Author> findAuthorById(int id) {
+        return authorRepository.findById(id);
+    }
+
+    @Override
+    @Transactional
+    public Author createAuthor(Author author) {
+        return authorRepository.save(author);
+    }
+
+    @Override
+    @Transactional
+    public Author updateAuthor(int id, Author updatedAuthor) {
+        return authorRepository.findById(id)
+                .map(existingAuthor -> {
+                    existingAuthor.setName(updatedAuthor.getName());
+                    return authorRepository.save(existingAuthor);
+                })
+                .orElseThrow(() -> new IllegalArgumentException("Author not found"));
+    }
+
+    @Override
+    @Transactional
+    public void deleteAuthor(int id) {
+        authorRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Author> findAuthorsByName(String name) {
+        return authorRepository.findByName(name);
     }
 
 }
