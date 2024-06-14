@@ -9,6 +9,8 @@ import java.util.List;
 
 @Repository
 public interface AuthorRepository extends JpaRepository<Author, Integer> {
-    @Query("SELECT a FROM Author a WHERE a.name = ?1")
     List<Author> findByName(String name);
+    @Query("SELECT a FROM Author a WHERE a.name IN :names")
+    List<Author> findAuthorsByNames(List<String> names);
+
 }
