@@ -12,7 +12,7 @@ This project is a Library Management System built with Spring Boot. It provides 
 
 ## Database Schema
 
-The PostgreSQL database consists of three tables: `authors`, `books`, and `author_books` (join table).
+The PostgreSQL database consists of three tables: `authors`, `books`, and `author_book` (join table).
 
 ### Authors Table
 
@@ -49,31 +49,40 @@ A Game of Thrones - J.R.R. Tolkien
 ### many authors to 1 book
 Good Omens - Terry Partchett, Neil Gaiman
 
+## API Swagger Document
+http://localhost:8080/swagger-ui/index.html#/
+![image](https://github.com/XiaoyangJin/Library_SpringBoot_RestAPI/assets/90944062/6a707f21-0a2b-420e-8068-ad2a40d72a47)
+
+
 ## API Endpoints
 
 ### Authors
 
 - **Get All Authors**
-  - `GET /api/authors`
+  - `GET /author`
 - **Get Author by ID**
-  - `GET /api/authors/{id}`
+  - `GET /author/{id}`
+- **Get Author by name**
+  - `GET /author/search`
 - **Create Author**
-  - `POST /api/authors`
+  - `POST /author`
 - **Update Author**
-  - `PUT /api/authors/{id}`
+  - `PUT /author/{id}`
 - **Delete Author**
-  - `DELETE /api/authors/{id}`
+  - `DELETE /author/{id}`
 
 ### Books
 
 - **Get All Books**
-  - `GET /api/books`
+  - `GET /book`
 - **Get Book by ID**
-  - `GET /api/books/{id}`
+  - `GET /book/{id}`
+- **Get Books by Author name**
+  - `GET /book/searchByAuthor`
 - **Create Book**
-  - `POST /api/books`
+  - `POST /book`
 - **Update Book**
-  - `PUT /api/books/{id}`
+  - `PUT /book/{id}`
 - **Delete Book**
-  - `DELETE /api/books/{id}`
+  - `DELETE /book/{id}`
 
