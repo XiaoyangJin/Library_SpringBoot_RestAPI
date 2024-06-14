@@ -1,7 +1,7 @@
 package com.example.Library.service.impl;
 
 import com.example.Library.entity.Author;
-import com.example.Library.repository.AuthorBookRepository;
+import com.example.Library.exceptions.EntityNotFoundException;
 import com.example.Library.repository.AuthorRepository;
 import com.example.Library.service.AuthorService;
 import jakarta.transaction.Transactional;
@@ -45,13 +45,17 @@ public class AuthorServiceImpl implements AuthorService {
                     existingAuthor.setName(updatedAuthor.getName());
                     return authorRepository.save(existingAuthor);
                 })
-                .orElseThrow(() -> new IllegalArgumentException("Author not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Author not found with id " + id));
     }
 
     @Override
     @Transactional
     public void deleteAuthor(int id) {
-        authorRepository.deleteById(id);
+        if (authorRepository.existsById(id)) {
+            authorRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("Author not found with id " + id);
+        }
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.example.Library.service.impl;
 import com.example.Library.entity.Author;
 import com.example.Library.entity.AuthorBook;
 import com.example.Library.entity.Book;
+import com.example.Library.exceptions.EntityNotFoundException;
 import com.example.Library.repository.AuthorBookRepository;
 import com.example.Library.repository.AuthorRepository;
 import com.example.Library.repository.BookRepository;
@@ -78,14 +79,18 @@ public class BookServiceImpl implements BookService {
 
                     return bookRepository.save(existingBook);
                 })
-                .orElseThrow(() -> new IllegalArgumentException("Book not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Book not found with id " + id));
     }
 
     @Override
     @Transactional
     public void deleteBook(int id) {
-        authorBookRepository.deleteAllByBookId(id);
-        bookRepository.deleteById(id);
+        if (bookRepository.existsById(id)) {
+            authorBookRepository.deleteAllByBookId(id);
+            bookRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("Book not found with id " + id);
+        }
     }
 
     @Override
