@@ -8,5 +8,4 @@ import java.util.List;
 @Service
 public interface AuthorService {
     List<Author> findAllAuthors();
-    List<Author> findAuthorsByName(String name);
 }
